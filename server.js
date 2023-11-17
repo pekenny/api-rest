@@ -39,6 +39,7 @@ app.post('/api/asistencias',asistenciasController.crearAsistencia);
 
 //Rutas Asignaturas
 app.get('/api/asignaturas', asignaturaController.getAsignaturas);
+app.get('/api/asignaturasCarrera', asignaturaController.getAsignaturasCarrera);
 
 // Inicia el servidor
 app.listen(port, () => {
