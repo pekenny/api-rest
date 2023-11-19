@@ -18,7 +18,7 @@ exports.getProfesor = (req, res) => {
 };
 
 exports.crearProfesor = (req, res) => {
-
+  const nuevoUsuario = req.body;
   console.log(nuevoUsuario); 
 
   // Consulta SQL para insertar un nuevo usuario
