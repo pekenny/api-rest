@@ -19,3 +19,4 @@ db.connect((err) => {
 
 // exportar la base de datos
 module.exports = db;
+

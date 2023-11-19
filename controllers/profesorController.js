@@ -1,4 +1,6 @@
 const db = require("../db/dbConextion");
+const multer = require("multer");
+const upload = require("../lib/multer");
 
 exports.getProfesor = (req, res) => {
   // Consulta SQL para obtener profesores
@@ -18,7 +20,8 @@ exports.getProfesor = (req, res) => {
 exports.crearProfesor = (req, res) => {
   const nuevoUsuario = req.body;
 
-  console.log(nuevoUsuario);
+  console.log(nuevoUsuario); 
+
   // Consulta SQL para insertar un nuevo usuario
   const sql = `INSERT INTO profesores (nombreyapellido, dni, domicilio, telefono, email, foto, cv, fechadeingreso, fechadebaja) 
               VALUES ('${nuevoUsuario.nombreyapellido}','${nuevoUsuario.dni}','${nuevoUsuario.domicilio}','${nuevoUsuario.telefono}','${nuevoUsuario.email}',
@@ -73,7 +76,15 @@ exports.updateProfesor = (req, res) => {
 
   console.log(data);
   // consulea SQL para actualizar registro
-  const sql = `UPDATE profesores SET nombreyapellido = '${data.nombreyapellido}', dni = '${data.dni}', domicilio = '${data.domicilio}', telefono = '${data.telefono}', email = '${data.email}'	, foto = '${data.fotos}', cv = '${data.cv}', fechadeingreso = '${data.fechadeingreso}', fechadebaja = ${data.fechadebaja ? `'${data.fechadebaja}'` : 'NULL'} WHERE id = ${id}`;
+  const sql = `UPDATE profesores SET nombreyapellido = '${
+    data.nombreyapellido
+  }', dni = '${data.dni}', domicilio = '${data.domicilio}', telefono = '${
+    data.telefono
+  }', email = '${data.email}'	, foto = '${data.fotos}', cv = '${
+    data.cv
+  }', fechadeingreso = '${data.fechadeingreso}', fechadebaja = ${
+    data.fechadebaja ? `'${data.fechadebaja}'` : "NULL"
+  } WHERE id = ${id}`;
 
   // ejecutar la consulta
   db.query(sql, data, (err, results) => {
