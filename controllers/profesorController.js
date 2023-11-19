@@ -1,4 +1,6 @@
 const db = require("../db/dbConextion");
+const multer = require("multer");
+const upload = require("../lib/multer");
 
 exports.getProfesor = (req, res) => {
   // Consulta SQL para obtener profesores
@@ -16,37 +18,60 @@ exports.getProfesor = (req, res) => {
 };
 
 exports.crearProfesor = (req, res) => {
-  const nuevoUsuario = req.body;
 
-  console.log(nuevoUsuario);
-  // Consulta SQL para insertar un nuevo usuario
-  const sql = `INSERT INTO profesores (nombreyapellido, dni, domicilio, telefono, email, foto, cv, fechadeingreso, fechadebaja) 
-              VALUES ('${nuevoUsuario.nombreyapellido}','${nuevoUsuario.dni}','${nuevoUsuario.domicilio}','${nuevoUsuario.telefono}','${nuevoUsuario.email}',
-              '${nuevoUsuario.foto}','${nuevoUsuario.cv}','${nuevoUsuario.fechadeingreso}','${nuevoUsuario.fechadebaja}')`;
-  // Ejecutar la consulta
-  db.query(
-    sql,
-    [
-      nuevoUsuario.nombreyapellido,
-      nuevoUsuario.dni,
-      nuevoUsuario.domicilio,
-      nuevoUsuario.telefono,
-      nuevoUsuario.email,
-      nuevoUsuario.fotos,
-      nuevoUsuario.cv,
-      nuevoUsuario.fechadeingreso,
-      nuevoUsuario.fechadebaja,
-    ],
-    (err, results) => {
-      if (err) {
-        console.error("Error al crear un nuevo usuario:", err);
-        res.status(500).json({ error: "Error al crear un nuevo usuario" });
-      } else {
-        nuevoUsuario.id = results.insertId;
-        res.json(nuevoUsuario);
-      }
+  // Utiliza el middleware 'upload' para capturar los datos del archivo
+  upload.single("file")(req, res, function (err) {
+    if (err instanceof multer.MulterError) {
+      // Maneja el error de multer
+      console.error("Error al capturar el archivo:", err);
+      res.status(500).json({ error: "Error al capturar el archivo" });
+    } else if (err) {
+      // Maneja otros errores
+      console.error("Error al capturar el archivo:", err);
+      res.status(500).json({ error: "Error al capturar el archivo" });
+    } else {
+      // Los datos del archivo están disponibles en req.file
+      console.log("datos del file "+req.file);
+      
+      const nuevoUsuario = req.body;
+      const foto = req.file;
+      const cv = req.file;
+
+      console.log(nuevoUsuario);
+      console.log(fotos);
+    
+      // Consulta SQL para insertar un nuevo usuario
+      const sql = `INSERT INTO profesores (nombreyapellido, dni, domicilio, telefono, email, foto, cv, fechadeingreso, fechadebaja) 
+                  VALUES ('${nuevoUsuario.nombreyapellido}','${nuevoUsuario.dni}','${nuevoUsuario.domicilio}','${nuevoUsuario.telefono}','${nuevoUsuario.email}',
+                  '${nuevoUsuario.foto}','${nuevoUsuario.cv}','${nuevoUsuario.fechadeingreso}','${nuevoUsuario.fechadebaja}')`;
+      // Ejecutar la consulta
+      db.query(
+        sql,
+        [
+          nuevoUsuario.nombreyapellido,
+          nuevoUsuario.dni,
+          nuevoUsuario.domicilio,
+          nuevoUsuario.telefono,
+          nuevoUsuario.email,
+          nuevoUsuario.fotos,
+          nuevoUsuario.cv,
+          nuevoUsuario.fechadeingreso,
+          nuevoUsuario.fechadebaja,
+        ],
+        (err, results) => {
+          if (err) {
+            console.error("Error al crear un nuevo usuario:", err);
+            res.status(500).json({ error: "Error al crear un nuevo usuario" });
+          } else {
+            nuevoUsuario.id = results.insertId;
+            res.json(nuevoUsuario);
+          }
+        }
+      );
+    
     }
-  );
+  });
+
 };
 
 exports.deleteProfesor = (req, res) => {
