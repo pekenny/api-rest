@@ -1,5 +1,5 @@
 const db = require("../db/dbConextion");
-const multer = require("multer");
+// const multer = require("multer");
 const upload = require("../lib/multer");
 
 exports.getProfesor = (req, res) => {
@@ -96,3 +96,27 @@ exports.updateProfesor = (req, res) => {
     }
   });
 };
+
+//  funcion para subit foto
+exports.uploadPhoto = (req, res) => {
+ upload.single("photo")(req, res, (err) => {
+   if (err) {
+     console.error("Error al subir la imagen:", err);
+     res.status(500).json({ error: "Error al subir la imagen" });
+   } else {
+     res.json({ message: "Imagen subida correctamente" });
+   }
+ })
+}
+
+// funcion para subir cv
+exports.uploadCV = (req, res) => {
+  upload.single("cv")(req, res, (err) => {
+    if (err) {
+      console.error("Error al subir el CV:", err);
+      res.status(500).json({ error: "Error al subir el CV" });
+    } else {
+      res.json({ message: "CV subido correctamente" });
+    }
+  })
+}
