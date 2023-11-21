@@ -1,6 +1,6 @@
 const db = require("../db/dbConextion");
 // const multer = require("multer");
-const upload = require("../lib/multer");
+const { uploadPhoto, uploadCv } = require("../lib/multer");
 
 exports.getProfesor = (req, res) => {
   // Consulta SQL para obtener profesores
@@ -25,7 +25,7 @@ exports.crearProfesor = (req, res) => {
   // Consulta SQL para insertar un nuevo usuario
   const sql = `INSERT INTO profesores (nombreyapellido, dni, domicilio, telefono, email, foto, cv, fechadeingreso, fechadebaja) 
               VALUES ('${nuevoUsuario.nombreyapellido}','${nuevoUsuario.dni}','${nuevoUsuario.domicilio}','${nuevoUsuario.telefono}','${nuevoUsuario.email}',
-              '${nuevoUsuario.foto}','${nuevoUsuario.cv}','${nuevoUsuario.fechadeingreso}','${nuevoUsuario.fechadebaja}')`;
+              '${nuevoUsuario.fotoName}','${nuevoUsuario.cvName}','${nuevoUsuario.fechadeingreso}','${nuevoUsuario.fechadebaja}')`;
   // Ejecutar la consulta
   db.query(
     sql,
@@ -35,7 +35,7 @@ exports.crearProfesor = (req, res) => {
       nuevoUsuario.domicilio,
       nuevoUsuario.telefono,
       nuevoUsuario.email,
-      nuevoUsuario.fotos,
+      nuevoUsuario.fotoName,
       nuevoUsuario.cv,
       nuevoUsuario.fechadeingreso,
       nuevoUsuario.fechadebaja,
@@ -98,8 +98,8 @@ exports.updateProfesor = (req, res) => {
 };
 
 //  funcion para subit foto
-exports.uploadPhoto = (req, res) => {
- upload.single("photo")(req, res, (err) => {
+exports.uploadsPhoto = (req, res) => {
+ uploadPhoto.single("photo")(req, res, (err) => {
    if (err) {
      console.error("Error al subir la imagen:", err);
      res.status(500).json({ error: "Error al subir la imagen" });
@@ -111,7 +111,7 @@ exports.uploadPhoto = (req, res) => {
 
 // funcion para subir cv
 exports.uploadCV = (req, res) => {
-  upload.single("cv")(req, res, (err) => {
+  uploadCv.single("cv")(req, res, (err) => {
     if (err) {
       console.error("Error al subir el CV:", err);
       res.status(500).json({ error: "Error al subir el CV" });

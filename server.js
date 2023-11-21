@@ -42,8 +42,11 @@ app.get('/api/asignaturas', asignaturaController.getAsignaturas);
 app.get('/api/asignaturasCarrera', asignaturaController.getAsignaturasCarrera);
 
 // Rutas Uploads photo y cv
-app.post('/api/uploadPhoto', profesorController.uploadPhoto);
+app.post('/api/uploadPhoto', profesorController.uploadsPhoto);
 app.post('/api/uploadCv', profesorController.uploadCV);
+
+// ruta uploads
+app.use('/uploads', express.static('uploads'));
 
 // Inicia el servidor
 app.listen(port, () => {
