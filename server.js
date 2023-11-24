@@ -61,6 +61,9 @@ app.use('/uploads', express.static('uploads'));
 // rutas para permisos y/o roles
 app.get('/api/roles', usuariosController.getRoles);
 
+// Ruta Login
+app.post('/api/login', usuariosController.getUserLogin);
+
 // Inicia el servidor
 app.listen(port, () => {
   console.log(`Servidor escuchando en el puerto ${port}`);
