@@ -17,7 +17,7 @@ exports.getRoles = (req, res) => {
 
 exports.getUsuarios = (req, res) => {
   // Consulta SQL para obtener usuarios
-  const sql = `SELECT * FROM usuarios`;
+  const sql = `select u.*,p.nombre as nombrePermiso from usuarios u inner join permisos p on u.id_permisos = p.id`;
 
   // Ejecutar la consulta
   db.query(sql, (err, results) => {
@@ -29,6 +29,29 @@ exports.getUsuarios = (req, res) => {
     }
   });
 };
+
+exports.getUserLogin = (req, res) => {
+  const { username, password } = req.body;
+
+  console.log(`datos : {nombre: ${username}, password: ${password}}`);
+  // Consulta SQL para obtener usuario
+  const sql = `SELECT * FROM usuarios WHERE nombre = "${username}" AND password = "${password}"`;
+
+  // Ejecutar la consulta
+  db.query(sql, (err, results) => {
+    if (err) {
+      console.error("Error al obtener usuario:", err);
+      res.status(500).json({ error: "Error al obtener usuario" });
+    } else {
+      if(results.length !== 0){
+        res.json({user: results, message: true});
+      }else{
+        res.status(500).json({ error: "Error al obtener usuario" });
+      }
+      
+    }
+  })
+}
 
 exports.crearUsuario = (req, res) => {
   const { usuario, correo, contrasena, rol } = req.body;
