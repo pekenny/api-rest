@@ -35,7 +35,9 @@ exports.getUserLogin = (req, res) => {
 
   console.log(`datos : {nombre: ${username}, password: ${password}}`);
   // Consulta SQL para obtener usuario
-  const sql = `SELECT * FROM usuarios WHERE nombre = "${username}" AND password = "${password}"`;
+  const sql = `SELECT u.*,p.nombre as rol, p.descripcion as descripcionPermiso FROM usuarios u 
+              inner join permisos p on u.id_permisos = p.id
+              where u.nombre = '${username}' and u.password = '${password}'`;
 
   // Ejecutar la consulta
   db.query(sql, (err, results) => {
