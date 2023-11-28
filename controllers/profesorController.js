@@ -4,7 +4,13 @@ const { uploadPhoto, uploadCv } = require("../lib/multer");
 
 exports.getProfesor = (req, res) => {
   // Consulta SQL para obtener profesores
-  const sql = `SELECT * FROM profesores`;
+  const sql = `select
+                p.*,
+                u.*
+              from
+                profesores p
+              left join usuarios u on
+                p.id = u.id_profesor`;
 
   // Ejecutar la consulta
   db.query(sql, (err, results) => {
