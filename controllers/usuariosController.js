@@ -56,10 +56,10 @@ exports.getUserLogin = (req, res) => {
 }
 
 exports.crearUsuario = (req, res) => {
-  const { usuario, correo, contrasena, rol } = req.body;
+  const { usuario, correo, contrasena, rol, id_profesor } = req.body;
   console.log(req.body);
   // Consulta SQL para insertar usuario
-  const sql = `INSERT INTO usuarios (nombre, correo, password, id_permisos) VALUES ("${usuario}", "${correo}", "${contrasena}", ${rol})`;
+  const sql = `INSERT INTO usuarios (nombre, correo, password, id_permisos, id_profesor) VALUES ("${usuario}", "${correo}", "${contrasena}", ${rol}, ${id_profesor})`;
 
   // Ejecutar la consulta
   db.query(sql, [usuario, correo, contrasena, rol], (err, results) => {
@@ -91,7 +91,7 @@ exports.deleteUsuario = (req, res) => {
 
 exports.updateUsuario = (req, res) => {
   const { id } = req.params;
-  const { usuario, correo, contrasena, rol } = req.body;
+  const { usuario, correo, contrasena, rol} = req.body;
 
   // Consulta SQL para actualizar usuario
   const sql = `UPDATE usuarios SET nombre = '${usuario}', correo = '${correo}', password = '${contrasena}', rol = ${rol} WHERE id = ${id}`;
