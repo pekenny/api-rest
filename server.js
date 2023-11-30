@@ -50,6 +50,7 @@ app.post('/api/asistencias',asistenciasController.crearAsistencia);
 //Rutas Asignaturas
 app.get('/api/asignaturas', asignaturaController.getAsignaturas);
 app.get('/api/asignaturasCarrera', asignaturaController.getAsignaturasCarrera);
+app.post('/api/asignaturas', asignaturaController.crearAsignatura);
 
 // Rutas Uploads photo y cv
 app.post('/api/uploadPhoto', profesorController.uploadsPhoto);

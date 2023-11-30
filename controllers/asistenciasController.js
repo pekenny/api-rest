@@ -3,16 +3,20 @@ const db = require("../db/dbConextion");
 exports.crearAsistencia = (req, res) => {
   const nuevaAsistencia = req.body;
 
-  const { profesor, fecha, estado } = nuevaAsistencia;
+  const { profesor, fecha, estado, asignatura } = nuevaAsistencia;
 
-  const sql = `INSERT INTO asistencias (profesor_id, fecha, estado) VALUES ('${profesor}','${fecha}', '${estado}')`;
+  const sql = `INSERT INTO asistencias (profesor_id, fecha, estado, asignatura_id) VALUES (${profesor},'${fecha}', '${estado}', ${asignatura})`;
 
   db.query(
     sql,
     [
-      nuevaAsistencia.idProfesor,
-      nuevaAsistencia.idCarrera,
-      nuevaAsistencia.fecha,
+      // nuevaAsistencia.idProfesor,
+      // nuevaAsistencia.idCarrera,
+      // nuevaAsistencia.fecha,
+      profesor,
+      fecha,
+      estado,
+      asignatura,
     ],
     (err, results) => {
       if (err) {

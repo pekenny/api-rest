@@ -6,7 +6,12 @@ exports.getProfesor = (req, res) => {
   // Consulta SQL para obtener profesores
   const sql = `select
                 p.*,
-                u.*
+                u.id as id_usuario,
+                  u.password as password_usuario,
+                  u.correo as correo_usuario,
+                  u.nombre,
+                  u.id_permisos,
+                  u.id_profesor
               from
                 profesores p
               left join usuarios u on
@@ -26,7 +31,7 @@ exports.getProfesor = (req, res) => {
 exports.crearProfesor = (req, res) => {
   const nuevoUsuario = req.body;
 
-  console.log(nuevoUsuario); 
+  console.log(nuevoUsuario);
 
   // Consulta SQL para insertar un nuevo usuario
   const sql = `INSERT INTO profesores (nombreyapellido, dni, domicilio, telefono, email, foto, cv, fechadeingreso, fechadebaja) 
@@ -105,15 +110,15 @@ exports.updateProfesor = (req, res) => {
 
 //  funcion para subit foto
 exports.uploadsPhoto = (req, res) => {
- uploadPhoto.single("photo")(req, res, (err) => {
-   if (err) {
-     console.error("Error al subir la imagen:", err);
-     res.status(500).json({ error: "Error al subir la imagen" });
-   } else {
-     res.json({ message: "Imagen subida correctamente" });
-   }
- })
-}
+  uploadPhoto.single("photo")(req, res, (err) => {
+    if (err) {
+      console.error("Error al subir la imagen:", err);
+      res.status(500).json({ error: "Error al subir la imagen" });
+    } else {
+      res.json({ message: "Imagen subida correctamente" });
+    }
+  });
+};
 
 // funcion para subir cv
 exports.uploadCV = (req, res) => {
@@ -124,5 +129,5 @@ exports.uploadCV = (req, res) => {
     } else {
       res.json({ message: "CV subido correctamente" });
     }
-  })
-}
+  });
+};
